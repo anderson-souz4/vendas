@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cliente {
 
     @Id
@@ -17,20 +19,6 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Pedido> pedidos;
-
-
-    public Cliente() {
-
-    }
-
-    public Cliente(String nome) {
-        this.nome = nome;
-    }
-
-    public Cliente(Integer id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
 
     public Integer getId() {
         return id;
