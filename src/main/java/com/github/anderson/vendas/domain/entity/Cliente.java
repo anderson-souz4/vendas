@@ -15,7 +15,7 @@ public class Cliente {
     @Column(length = 100)
     private String nome;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Pedido> pedidos;
 
 
@@ -54,5 +54,15 @@ public class Cliente {
 
     public void setPedidos(Set<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Cliente{");
+        sb.append("id=").append(id);
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append(", pedidos=").append(pedidos);
+        sb.append('}');
+        return sb.toString();
     }
 }

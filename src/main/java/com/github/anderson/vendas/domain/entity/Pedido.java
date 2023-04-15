@@ -1,6 +1,7 @@
 package com.github.anderson.vendas.domain.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -19,8 +20,8 @@ public class Pedido {
     @Column(name = "data_pedido")
     private LocalDate dataPedido;
 
-    @Column(name = "total", length = 20, precision = 2)
-    private Double total;
+    @Column(name = "total", precision = 20, scale = 2)
+    private BigDecimal total;
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;
@@ -51,11 +52,21 @@ public class Pedido {
         this.dataPedido = dataPedido;
     }
 
-    public Double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Pedido{");
+        sb.append("id=").append(id);
+        sb.append(", dataPedido=").append(dataPedido);
+        sb.append(", total=").append(total);
+        sb.append('}');
+        return sb.toString();
     }
 }
