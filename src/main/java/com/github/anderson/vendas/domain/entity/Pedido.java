@@ -1,12 +1,20 @@
 package com.github.anderson.vendas.domain.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class Pedido {
 
     @Id
@@ -27,46 +35,4 @@ public class Pedido {
     private List<ItemPedido> itens;
 
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public LocalDate getDataPedido() {
-        return dataPedido;
-    }
-
-    public void setDataPedido(LocalDate dataPedido) {
-        this.dataPedido = dataPedido;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Pedido{");
-        sb.append("id=").append(id);
-        sb.append(", dataPedido=").append(dataPedido);
-        sb.append(", total=").append(total);
-        sb.append('}');
-        return sb.toString();
-    }
 }
