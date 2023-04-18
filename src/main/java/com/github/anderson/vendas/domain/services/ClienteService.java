@@ -1,5 +1,6 @@
 package com.github.anderson.vendas.domain.services;
 
+import ch.qos.logback.core.net.server.Client;
 import com.github.anderson.vendas.domain.entity.Cliente;
 import com.github.anderson.vendas.domain.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,8 @@ public class ClienteService {
     }
 
 
+    public Cliente obterClientePorId(Integer id) {
 
-
-
-
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+    }
 }

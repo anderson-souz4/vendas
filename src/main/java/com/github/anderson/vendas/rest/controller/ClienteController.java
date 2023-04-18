@@ -14,8 +14,13 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    @GetMapping("{id}")
+    public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Integer id) {
+        return ResponseEntity.ok(clienteService.obterClientePorId(id));
+    }
 
-    @RequestMapping(method = RequestMethod.POST)
+
+    @PostMapping
     public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente) {
         return ResponseEntity.ok(clienteService.salvar(cliente));
     }
