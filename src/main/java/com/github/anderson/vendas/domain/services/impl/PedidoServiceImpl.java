@@ -4,6 +4,7 @@ import com.github.anderson.vendas.domain.entity.Cliente;
 import com.github.anderson.vendas.domain.entity.ItemPedido;
 import com.github.anderson.vendas.domain.entity.Pedido;
 import com.github.anderson.vendas.domain.entity.Produto;
+import com.github.anderson.vendas.domain.enums.StatusPedido;
 import com.github.anderson.vendas.domain.exceptions.RegraNegocioException;
 import com.github.anderson.vendas.domain.repository.ClienteRepository;
 import com.github.anderson.vendas.domain.repository.ItemPedidoRepository;
@@ -41,6 +42,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemPedidos = converterItems(pedido, dto.getItems());
         pedidoRepository.save(pedido);
