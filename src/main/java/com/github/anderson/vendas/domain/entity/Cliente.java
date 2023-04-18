@@ -18,6 +18,8 @@ public class Cliente {
     @Column(length = 100)
     private String nome;
 
+    private String cpf;
+
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Pedido> pedidos;
