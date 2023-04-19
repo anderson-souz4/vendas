@@ -1,5 +1,6 @@
 package com.github.anderson.vendas.rest.controller;
 
+import com.github.anderson.vendas.domain.exceptions.PedidoNaoEncontradoException;
 import com.github.anderson.vendas.domain.exceptions.RegraNegocioException;
 import com.github.anderson.vendas.rest.controller.dto.ApiErrors;
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,13 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(RegraNegocioException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrors handleRegraNegocioException(RegraNegocioException ex){
-        String mensagemErro = ex.getMessage();
-        return new ApiErrors(mensagemErro);
+        return new ApiErrors(ex.getMessage());
+    }
+
+    @ExceptionHandler(PedidoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErrors handlePedidoNaoEncontradoException(PedidoNaoEncontradoException ex){
+        return new ApiErrors(ex.getMessage());
     }
 
 

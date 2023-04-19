@@ -5,6 +5,7 @@ import com.github.anderson.vendas.domain.entity.ItemPedido;
 import com.github.anderson.vendas.domain.entity.Pedido;
 import com.github.anderson.vendas.domain.entity.Produto;
 import com.github.anderson.vendas.domain.enums.StatusPedido;
+import com.github.anderson.vendas.domain.exceptions.PedidoNaoEncontradoException;
 import com.github.anderson.vendas.domain.exceptions.RegraNegocioException;
 import com.github.anderson.vendas.domain.repository.ClienteRepository;
 import com.github.anderson.vendas.domain.repository.ItemPedidoRepository;
@@ -56,6 +57,17 @@ public class PedidoServiceImpl implements PedidoService {
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return pedidoRepository
                 .findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+        pedidoRepository
+                .findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(StatusPedido.valueOf(statusPedido.name()));
+                    return pedidoRepository.save(pedido);
+                }).orElseThrow(PedidoNaoEncontradoException::new);
     }
 
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items) {
