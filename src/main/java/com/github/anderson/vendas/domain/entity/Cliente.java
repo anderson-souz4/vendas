@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 @Data
 @NoArgsConstructor
@@ -16,6 +17,7 @@ public class Cliente {
     private Integer id;
 
     @Column(length = 100)
+    @NotEmpty(message = "Campo nome obrigatório")
     private String nome;
 
     private String cpf;
