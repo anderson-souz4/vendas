@@ -2,6 +2,7 @@ package com.github.anderson.vendas.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -20,6 +21,8 @@ public class Cliente {
     @NotEmpty(message = "Campo nome obrigatório")
     private String nome;
 
+    @NotEmpty(message = "Campo CPF obrigatório")
+    @CPF(message = "CPF inválido")
     private String cpf;
 
     @JsonIgnore
