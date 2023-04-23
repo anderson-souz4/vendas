@@ -1,7 +1,7 @@
 package com.github.anderson.vendas.config;
 
 import com.github.anderson.vendas.domain.services.impl.UsuarioServiceImpl;
-import com.github.anderson.vendas.security.JwTService;
+import com.github.anderson.vendas.security.JwtService;
 import com.github.anderson.vendas.security.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UsuarioServiceImpl usuarioService;
     @Autowired
-    JwTService jwTService;
+    JwtService jwTService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

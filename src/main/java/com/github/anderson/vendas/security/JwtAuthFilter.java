@@ -1,6 +1,5 @@
 package com.github.anderson.vendas.security;
 
-import com.github.anderson.vendas.domain.entity.Usuario;
 import com.github.anderson.vendas.domain.services.impl.UsuarioServiceImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,10 +16,10 @@ import java.io.IOException;
 // Filtro para interceptar a requisição e verificar se o token é valido
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private JwTService jwTService;
+    private JwtService jwTService;
     private UsuarioServiceImpl usuarioService;
 
-    public JwtAuthFilter(JwTService jwTService, UsuarioServiceImpl usuarioService) {
+    public JwtAuthFilter(JwtService jwTService, UsuarioServiceImpl usuarioService) {
         this.jwTService = jwTService;
         this.usuarioService = usuarioService;
     }

@@ -1,6 +1,7 @@
 package com.github.anderson.vendas.domain.services.impl;
 
 import com.github.anderson.vendas.domain.entity.Usuario;
+import com.github.anderson.vendas.domain.exceptions.SenhaInvalidaException;
 import com.github.anderson.vendas.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -37,5 +38,14 @@ public class UsuarioServiceImpl implements UserDetailsService {
     @Transactional
     public Usuario salvar(Usuario usuario) {
         return repository.save(usuario);
+    }
+
+    public UserDetails autenticar(Usuario usuario) {
+        UserDetails user = loadUserByUsername(usuario.getLogin());
+        boolean senhasBatem = encoder.matches(usuario.getSenha(), user.getPassword());
+        if (senhasBatem) {
+            return user;
+        }
+        throw new SenhaInvalidaException();
     }
 }

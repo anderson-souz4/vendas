@@ -16,7 +16,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @Service
-public class JwTService {
+public class JwtService {
     @Value("${security.jwt.expiracao}")
     private String expiracao;
     @Value("${security.jwt.chave-assinatura}")
@@ -59,7 +59,7 @@ public class JwTService {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext contexto = new SpringApplication(VendasApplication.class).run(args);
-        JwTService jwTService = contexto.getBean(JwTService.class);
+        JwtService jwTService = contexto.getBean(JwtService.class);
         String token = jwTService.gerarToken(new Usuario().builder().login("anderson").build());
         System.out.println(token);
 
