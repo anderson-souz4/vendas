@@ -20,6 +20,20 @@ public class UsuarioServiceImpl implements UserDetailsService {
     @Autowired
     UsuarioRepository repository;
 
+    @Transactional
+    public Usuario salvar(Usuario usuario) {
+        return repository.save(usuario);
+    }
+
+    public UserDetails autenticar(Usuario usuario) {
+        UserDetails user = loadUserByUsername(usuario.getLogin());
+        boolean senhasBatem = encoder.matches(usuario.getSenha(), user.getPassword());
+        if (senhasBatem) {
+            return user;
+        }
+        throw new SenhaInvalidaException();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = repository.findByLogin(username)
@@ -33,19 +47,5 @@ public class UsuarioServiceImpl implements UserDetailsService {
                 .password(usuario.getSenha())
                 .roles(roles)
                 .build();
-    }
-
-    @Transactional
-    public Usuario salvar(Usuario usuario) {
-        return repository.save(usuario);
-    }
-
-    public UserDetails autenticar(Usuario usuario) {
-        UserDetails user = loadUserByUsername(usuario.getLogin());
-        boolean senhasBatem = encoder.matches(usuario.getSenha(), user.getPassword());
-        if (senhasBatem) {
-            return user;
-        }
-        throw new SenhaInvalidaException();
     }
 }

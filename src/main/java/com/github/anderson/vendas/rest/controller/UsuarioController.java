@@ -5,11 +5,9 @@ import com.github.anderson.vendas.domain.exceptions.SenhaInvalidaException;
 import com.github.anderson.vendas.domain.services.impl.UsuarioServiceImpl;
 import com.github.anderson.vendas.rest.controller.dto.CredenciaisDTO;
 import com.github.anderson.vendas.rest.controller.dto.TokenDTO;
-import com.github.anderson.vendas.rest.controller.dto.UsuarioDTO;
 import com.github.anderson.vendas.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,18 +28,15 @@ public class UsuarioController {
     private final JwtService jwtService;
 
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public UsuarioDTO salvar(@RequestBody @Valid Usuario usuario) {
+    public Usuario salvar(@RequestBody @Valid Usuario usuario) {
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
         usuario.setSenha(senhaCriptografada);
-        usuarioService.salvar(usuario);
-        return modelMapper.map(usuario, UsuarioDTO.class);
+        return usuarioService.salvar(usuario);
     }
 
     @PostMapping("/auth")
     public TokenDTO autenticar(@RequestBody CredenciaisDTO credenciais) {
         try {
-
             Usuario usuario = Usuario.builder()
                     .login(credenciais.getLogin())
                     .senha(credenciais.getSenha()).build();

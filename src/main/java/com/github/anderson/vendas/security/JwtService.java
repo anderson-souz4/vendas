@@ -26,6 +26,7 @@ public class JwtService {
         long expString = Long.valueOf(expiracao);
         LocalDateTime dataHoraExpiracao = LocalDateTime.now().plusMinutes(expString); // Pego a data e hora atual e adiciono o tempo de expiração
         Date data = Date.from(dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant()); // Converto para Date
+
         return Jwts.builder()
                 .setSubject(usuario.getLogin()) // Seto o login do usuário
                 .setExpiration(data) // Seto a data de expiração
@@ -54,19 +55,6 @@ public class JwtService {
 
 
     public String obterLoginUsuario(String token) throws ExpiredJwtException {
-        return (String) obterClaims(token).getSubject(); // Pego o login do usuário
-    }
-
-    public static void main(String[] args) {
-        ConfigurableApplicationContext contexto = new SpringApplication(VendasApplication.class).run(args);
-        JwtService jwTService = contexto.getBean(JwtService.class);
-        String token = jwTService.gerarToken(new Usuario().builder().login("anderson").build());
-        System.out.println(token);
-
-        boolean isTokenValido = jwTService.tokenValido(token);
-        System.out.println("Token válido: " + isTokenValido);
-
-        String login = jwTService.obterLoginUsuario(token);
-        System.out.println("Login: " + login);
+        return obterClaims(token).getSubject(); // Pego o login do usuário
     }
 }
