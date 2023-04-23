@@ -1,5 +1,6 @@
-package com.github.anderson.vendas;
+package com.github.anderson.vendas.security;
 
+import com.github.anderson.vendas.VendasApplication;
 import com.github.anderson.vendas.domain.entity.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
