@@ -1,6 +1,8 @@
 package com.github.anderson.vendas.config;
 
 import com.github.anderson.vendas.domain.services.impl.UsuarioServiceImpl;
+import com.github.anderson.vendas.security.JwTService;
+import com.github.anderson.vendas.security.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -8,18 +10,28 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UsuarioServiceImpl usuarioService;
+    @Autowired
+    JwTService jwTService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public OncePerRequestFilter jwtFilter() {
+        return new JwtAuthFilter(jwTService, usuarioService);
     }
 
     // configuração de autenticação de usuário - autenticação de usuário e senha no banco de dados
@@ -37,17 +49,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/clientes/**")
-                    .hasAnyRole("USER", "ADMIN")
+                .hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/pedidos/**")
-                    .hasAnyRole("USER", "ADMIN")
+                .hasAnyRole("USER", "ADMIN")
                 .antMatchers("/api/produtos/**")
-                    .hasRole("ADMIN")
+                .hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/usuarios/**")
-                    .permitAll()
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro antes do filtro de autenticação do spring
 
     }
 }
