@@ -1,4 +1,5 @@
 package com.github.anderson.vendas.rest.controller;
+
 import com.github.anderson.vendas.domain.entity.Cliente;
 import com.github.anderson.vendas.domain.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +61,13 @@ public class ClienteController {
     }
 
     @GetMapping
-    public List<Cliente> find (Cliente filtro){
+    public List<Cliente> find(Cliente filtro) {
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
 
-        Example example =Example.of(filtro, matcher);
+        Example example = Example.of(filtro, matcher);
 
         return clienteRepository.findAll(example);
     }
